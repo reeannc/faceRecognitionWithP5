@@ -1,0 +1,19 @@
+body {
+  background-color: black;
+}
+
+#canvas{
+  position: relative;
+  top: 10px;
+  left: 0px;
+  z-index: 1;/*higher number brings to the front of other(video)*/
+}
+
+#video{
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 0;/*brings to the back*/
+  border: 3px #fff solid;
+	border-radius: 10px;
+}
