@@ -38,6 +38,7 @@ function gotFaces(error, result){
     drawBoxes(detections)
     drawLandmarks(detections)
     drawExpressions(detections, 20, 250, 14);
+    detectOneExpression(detections)
 
     faceapi.detect(gotFaces); //detects changing expressions of your face
 }
@@ -68,7 +69,7 @@ function drawLandmarks(detections){
 }
 
 function drawExpressions(detections, x, y, textYSpace){
-    if(detections.length > 0){//If at least 1 face is detected: もし1つ以上の顔が検知されていたら
+    if(detections.length > 0){
         let {neutral, happy, angry, sad, disgusted, surprised, fearful} = detections[0].expressions;
         textFont('Helvetica Neue');
         textSize(14);
@@ -82,7 +83,7 @@ function drawExpressions(detections, x, y, textYSpace){
         text("disgusted: " + nf(disgusted*100, 2, 2)+"%", x, y+textYSpace*4);
         text("surprised:  " + nf(surprised*100, 2, 2)+"%", x, y+textYSpace*5);
         text("fear:           " + nf(fearful*100, 2, 2)+"%", x, y+textYSpace*6);
-      }else{//If no faces is detected: 顔が1つも検知されていなかったら
+      }else{
         text("neutral: ", x, y);
         text("happiness: ", x, y + textYSpace);
         text("anger: ", x, y + textYSpace*2);
@@ -92,3 +93,26 @@ function drawExpressions(detections, x, y, textYSpace){
         text("fear: ", x, y + textYSpace*6);
       }
 }
+
+function detectOneExpression(detections){
+    if(detections.length > 0){
+        for(let f=0; f<detections.length; f++){
+            let expression = detections[f].expressions;
+            console.log(expression);
+            if(expression.hasOwnProperty('surprised')){
+                const hasValue = Object.values(expression).includes(1);
+                    //console.log(hasValue should be true);
+                if(hasValue){
+                popUpMessage();
+                }
+            }  
+        }
+    }
+}
+
+function popUpMessage(){
+    alert('you look surprised');
+}
+
+//check for surprised only
+//when surprised, add animated image to html page
